@@ -18,7 +18,7 @@ jobs:
     steps:
       - run: git clone https://github.com/tholach/LABO2_FRONTEND.git
       - run: git clone https://github.com/tholach/LABO2_BACKEND.git
-      - run: npm install
+      - run: nvm install node
       - run: npm run build
       - run: mkdir -p LABO2_BACKEND/public
       - run: cp -rT build/ LABO2_BACKEND/public/
