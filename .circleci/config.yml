@@ -9,8 +9,8 @@ jobs:
     machine: true
     steps:
       - run: git clone https://github.com/tholach/LABO2_BACKEND.git
-      - run: cd 3w5-h24-tp2-backend && npm install
-      - run: cd 3w5-h24-tp2-backend && npm run test
+      - run: cd LABO2_BACKEND && npm install
+      - run: cd LABO2_BACKEND && npm run test
   integrationFrontend:
     description: integration du frontend
     docker:
@@ -20,8 +20,8 @@ jobs:
       - run: git clone https://github.com/tholach/LABO2_BACKEND.git
       - run: npm install
       - run: npm run build
-      - run: mkdir -p 3w5-h24-tp2-backend/public
-      - run: cp -rT build/ 3w5-h24-tp2-backend/public/
+      - run: mkdir -p LABO2_BACKEND/public
+      - run: cp -rT build/ LABO2_BACKEND/public/
       - persist_to_workspace:
           root: .
           paths:
