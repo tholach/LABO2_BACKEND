@@ -18,14 +18,14 @@ jobs:
     steps:
       - run: git clone https://github.com/tholach/LABO2_FRONTEND.git
       - run: git clone https://github.com/tholach/LABO2_BACKEND.git
-      - run: nvm install node
-      - run: npm run build
+      - run: cd LABO2_FRONTEND && npm install
+      - run: cd LABO2_FRONTEND && npm run build
       - run: mkdir -p LABO2_BACKEND/public
-      - run: cp -rT build/ LABO2_BACKEND/public/
+      - run: cp -rT LABO2_FRONTEND/build/ LABO2_BACKEND/public/
       - persist_to_workspace:
           root: .
           paths:
-            - 3w5-h24-tp2-backend
+            - LABO2_BACKEND
 
 
   deploiement:
