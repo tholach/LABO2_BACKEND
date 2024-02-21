@@ -1,38 +1,50 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.,test:jest:
 version: 2.1
 orbs:
-  node: circleci/node@5
+  node: circleci/node@5.2.0
+
+
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
-    environment:
-      JEST_JUNIT_OUTPUT_DIR: ./test-results/
+  checkoutEtTests:
+    description: checkout et tests
+    machine: true
     steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm install jest-junit
-      - run:
-          name: Run tests
-          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
-      - store_test_results:
-          path: ./test-results/
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
+      - run: git clone https://github.com/tholach/LABO2_BACKEND.git
+      - run: cd 3w5-h24-tp2-backend && npm install
+      - run: cd 3w5-h24-tp2-backend && npm run test
+  integrationFrontend:
+    description: integration du frontend
     docker:
       - image: cimg/base:stable
     steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+      - run: git clone https://github.com/tholach/LABO2_FRONTEND.git
+      - run: git clone https://github.com/tholach/LABO2_BACKEND.git
+      - run: npm install
+      - run: npm run build
+      - run: mkdir -p 3w5-h24-tp2-backend/public
+      - run: cp -rT build/ 3w5-h24-tp2-backend/public/
+      - persist_to_workspace:
+          root: .
+          paths:
+            - 3w5-h24-tp2-backend
+
+
+  deploiement:
+    description: deploiement
+    machine: true
+    steps:
+      - attach_workspace:
+          at: .
+      - run: ls -Rl
+
+
+
 workflows:
-  build-and-test:
+  monWorkflow:
     jobs:
-      - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+      - checkoutEtTests
+      - integrationFrontend:
+          requires:
+            - checkoutEtTests
+      - deploiement:
+          requires: 
+            - integrationFrontend
