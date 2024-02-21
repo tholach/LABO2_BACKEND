@@ -14,7 +14,7 @@ jobs:
   integrationFrontend:
     description: integration du frontend
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:17.2.0
     steps:
       - run: git clone https://github.com/tholach/LABO2_FRONTEND.git
       - run: git clone https://github.com/tholach/LABO2_BACKEND.git
